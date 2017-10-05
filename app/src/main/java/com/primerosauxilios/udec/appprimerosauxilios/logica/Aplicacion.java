@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.primerosauxilios.udec.appprimerosauxilios.persistencia.MyDatabase;
+import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePA;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.PrimerosAuxiliosDBHelper;
 
 import java.util.ArrayList;
@@ -50,13 +50,13 @@ public class Aplicacion {
         Caso retorno = new Caso();
 
         Cursor caso = db.rawQuery(
-                "SELECT "+ MyDatabase.EntryCasos._ID + ", " +
-                MyDatabase.EntryCasos.NOMBRE + ", " +
-                MyDatabase.EntryCasos.PROCEDIMIENTO + ", " +
-                MyDatabase.EntryCasos.PALABRAS_CLAVES_BUSQUEDA + ", " +
-                MyDatabase.EntryCasos.ARCHIVO_AUDIO +" FROM " +
-                MyDatabase.EntryCasos.TABLA_CASOS+" WHERE " +
-                MyDatabase.EntryCasos.NOMBRE + " LIKE '%" + nombre +"%' ", null);
+                "SELECT "+ DatabasePA.EntryCasos._ID + ", " +
+                DatabasePA.EntryCasos.NOMBRE + ", " +
+                DatabasePA.EntryCasos.PROCEDIMIENTO + ", " +
+                DatabasePA.EntryCasos.PALABRAS_CLAVES_BUSQUEDA + ", " +
+                DatabasePA.EntryCasos.ARCHIVO_AUDIO +" FROM " +
+                DatabasePA.EntryCasos.TABLA_CASOS+" WHERE " +
+                DatabasePA.EntryCasos.NOMBRE + " LIKE '%" + nombre +"%' ", null);
 
 
         caso.moveToFirst();
