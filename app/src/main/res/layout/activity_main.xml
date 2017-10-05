@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.primerosauxilios.udec.appprimerosauxilios.vista.MainActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnMedidasGenerales"
+        android:id="@+id/btnMedidasGenerales"
+        android:onClick="medidasGenerales"
+        />
+    <android.support.v7.widget.SearchView
+        android:id="@+id/simpleSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="@string/search_hint">
+
+        <requestFocus/>
+    </android.support.v7.widget.SearchView>
+
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoCaso"
+        android:id="@+id/fragmentoInfoCaso"
+        android:layout_alignParentBottom="true"
+        class="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoCaso"
+        tools:layout="@layout/fragmento_caso"/>
+</RelativeLayout>
