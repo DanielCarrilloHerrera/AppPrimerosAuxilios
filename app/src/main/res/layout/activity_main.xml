@@ -27,9 +27,9 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoCaso"
-        android:id="@+id/fragmentoInfoCaso"
+        android:name="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoResultados"
+        android:id="@+id/fragmentoResultados"
         android:layout_alignParentBottom="true"
-        class="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoCaso"
-        tools:layout="@layout/fragmento_caso"/>
+        class="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoResultados"
+        tools:layout="@layout/fragmento_resultados"/>
 </RelativeLayout>

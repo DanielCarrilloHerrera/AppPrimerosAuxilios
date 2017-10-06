@@ -18,6 +18,7 @@ public class Aplicacion {
     private Context context;
     private static Aplicacion instancia;
     private ArrayList<Caso> listaCasos;
+    private SQLiteDatabase db;
     private PrimerosAuxiliosDBHelper admin;
 
 
@@ -46,7 +47,7 @@ public class Aplicacion {
 //----------------- CONSULTAR CASO SEGÚN EL NOMBRE  ------------------------
     public Caso getCaso(String nombre){
 
-        SQLiteDatabase db = admin.getWritableDatabase();
+        db = admin.getWritableDatabase();
         Caso retorno = new Caso();
 
         Cursor caso = db.rawQuery(
