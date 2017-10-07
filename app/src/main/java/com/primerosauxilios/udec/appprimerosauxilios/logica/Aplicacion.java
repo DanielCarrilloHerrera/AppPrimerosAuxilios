@@ -3,6 +3,7 @@ package com.primerosauxilios.udec.appprimerosauxilios.logica;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePA;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.PrimerosAuxiliosDBHelper;
@@ -59,7 +60,6 @@ public class Aplicacion {
                 DatabasePA.EntryCasos.TABLA_CASOS+" WHERE " +
                 DatabasePA.EntryCasos.NOMBRE + " LIKE '%" + nombre +"%' ", null);
 
-
         caso.moveToFirst();
         retorno.setId(caso.getInt(0));
         retorno.setNombre(caso.getString(1));
@@ -71,8 +71,29 @@ public class Aplicacion {
     }
 
 //------------------------------------------------------------------------------------
-    public ArrayList<Caso> getCasos(ArrayList<String> palabraClave){
-        return null;
+
+//------------------- Obtener casos por palabras clave -------------------------------
+    public ArrayList<String> getNombresCasos(String palabrasClave){
+        db = admin.getWritableDatabase();
+        ArrayList<String> nombreCasos = new ArrayList<String>();
+
+        Cursor listaDeCasos = db.rawQuery(
+                "SELECT "+ DatabasePA.EntryCasos.NOMBRE + " FROM " +
+                DatabasePA.EntryCasos.TABLA_CASOS + " WHERE " +
+                DatabasePA.EntryCasos.PALABRAS_CLAVES_BUSQUEDA +
+                " LIKE '%" + palabrasClave.toLowerCase() + "%'", null);
+
+        listaDeCasos.moveToFirst();
+
+        while(!listaDeCasos.isAfterLast()){
+            String nombre  = listaDeCasos.getString(listaDeCasos.getColumnIndex(DatabasePA.EntryCasos.NOMBRE));
+            nombreCasos.add(nombre);//Se agrega el nombre almacenado en la
+                                                                                        //colummna nombre
+            listaDeCasos.moveToNext();
+        }
+
+        listaDeCasos.close();
+        return nombreCasos;
     }
 
     public String agregarNuevoCaso(String nombreCaso){

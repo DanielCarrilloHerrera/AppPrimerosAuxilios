@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".vista.MainActivity">
+        <activity android:name=".vista.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".vista.MedidasGeneralesPA"></activity>
+        <activity android:name=".vista.activities.MedidasGeneralesPA"></activity>
     </application>
 
 </manifest>

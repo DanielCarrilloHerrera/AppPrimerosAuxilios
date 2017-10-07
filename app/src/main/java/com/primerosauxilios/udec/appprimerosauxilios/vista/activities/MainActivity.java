@@ -1,6 +1,7 @@
-package com.primerosauxilios.udec.appprimerosauxilios.vista;
+package com.primerosauxilios.udec.appprimerosauxilios.vista.activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -9,10 +10,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.primerosauxilios.udec.appprimerosauxilios.R;
+import com.primerosauxilios.udec.appprimerosauxilios.logica.Aplicacion;
+import com.primerosauxilios.udec.appprimerosauxilios.vista.fragmentos.FragmentoResultados;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, FragmentoResultados.Puente {
 
     SearchView simpleSearchView;
+    FragmentoResultados fr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,8 +26,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
 
         simpleSearchView = (SearchView) findViewById(R.id.simpleSearchView); //initiate a search view
-
         simpleSearchView.setOnQueryTextListener(this);
+
+        FragmentoResultados fr = (FragmentoResultados) getSupportFragmentManager()
+                .findFragmentById(R.id.fragmentoResultados);
+
     }
 
     @Override
@@ -46,12 +55,31 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(this, query, Toast.LENGTH_LONG).show();
-        return false;
+        Aplicacion aplicacion = Aplicacion.getInstancia(getApplicationContext());
+        ArrayList<String> listaCasos = aplicacion.getNombresCasos(query);//Se obtienen de la base de datos el listado de casos
+                                                                        //de acuerdo a las palabras ingresadas en el SearchView
+
+        if (fr != null){//Si fr ya esta inicializado
+            fr.llenarListaCasos(listaCasos);
+            return true;
+        } else {
+            fr = new FragmentoResultados();
+            FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction();
+            transaction.replace(R.id.fragmentoResultados, fr);
+            transaction.addToBackStack(null);
+            fr.llenarListaCasos(listaCasos);
+            return true;
+        }
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public void casoAMostrar(String nombreCaso) {
+
     }
 }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.primerosauxilios.udec.appprimerosauxilios.vista.MainActivity">
+    tools:context="com.primerosauxilios.udec.appprimerosauxilios.vista.activities.MainActivity">
 
     <Button
         android:layout_width="wrap_content"
@@ -15,11 +15,13 @@
         android:onClick="medidasGenerales"
         />
     <android.support.v7.widget.SearchView
+        android:elevation="2dp"
+        android:background="#fff"
         android:id="@+id/simpleSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="@string/search_hint">
-
+        android:queryHint="@string/search_hint"
+        android:layout_below="@+id/btnMedidasGenerales">
         <requestFocus/>
     </android.support.v7.widget.SearchView>
 
@@ -27,9 +29,9 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:name="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoResultados"
+        android:name="com.primerosauxilios.udec.appprimerosauxilios.vista.fragmentos.FragmentoResultados"
         android:id="@+id/fragmentoResultados"
         android:layout_alignParentBottom="true"
-        class="com.primerosauxilios.udec.appprimerosauxilios.vista.FragmentoResultados"
+        class="com.primerosauxilios.udec.appprimerosauxilios.vista.fragmentos.FragmentoResultados"
         tools:layout="@layout/fragmento_resultados"/>
 </RelativeLayout>
