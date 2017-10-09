@@ -3,9 +3,8 @@ package com.primerosauxilios.udec.appprimerosauxilios.logica;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.ContactsContract;
 
-import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePA;
+import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.PrimerosAuxiliosDBHelper;
 
 import java.util.ArrayList;
@@ -52,13 +51,13 @@ public class Aplicacion {
         Caso retorno = new Caso();
 
         Cursor caso = db.rawQuery(
-                "SELECT "+ DatabasePA.EntryCasos._ID + ", " +
-                DatabasePA.EntryCasos.NOMBRE + ", " +
-                DatabasePA.EntryCasos.PROCEDIMIENTO + ", " +
-                DatabasePA.EntryCasos.PALABRAS_CLAVES_BUSQUEDA + ", " +
-                DatabasePA.EntryCasos.ARCHIVO_AUDIO +" FROM " +
-                DatabasePA.EntryCasos.TABLA_CASOS+" WHERE " +
-                DatabasePA.EntryCasos.NOMBRE + " LIKE '%" + nombre +"%' ", null);
+                "SELECT "+ DatabasePAConstantes.EntryCasos._ID + ", " +
+                DatabasePAConstantes.EntryCasos.NOMBRE + ", " +
+                DatabasePAConstantes.EntryCasos.PROCEDIMIENTO + ", " +
+                DatabasePAConstantes.EntryCasos.PALABRAS_CLAVES_BUSQUEDA + ", " +
+                DatabasePAConstantes.EntryCasos.ARCHIVO_AUDIO +" FROM " +
+                DatabasePAConstantes.EntryCasos.TABLA_CASOS+" WHERE " +
+                DatabasePAConstantes.EntryCasos.NOMBRE + " LIKE '%" + nombre +"%' ", null);
 
         caso.moveToFirst();
         retorno.setId(caso.getInt(0));
@@ -78,15 +77,15 @@ public class Aplicacion {
         ArrayList<String> nombreCasos = new ArrayList<String>();
 
         Cursor listaDeCasos = db.rawQuery(
-                "SELECT "+ DatabasePA.EntryCasos.NOMBRE + " FROM " +
-                DatabasePA.EntryCasos.TABLA_CASOS + " WHERE " +
-                DatabasePA.EntryCasos.PALABRAS_CLAVES_BUSQUEDA +
+                "SELECT "+ DatabasePAConstantes.EntryCasos.NOMBRE + " FROM " +
+                DatabasePAConstantes.EntryCasos.TABLA_CASOS + " WHERE " +
+                DatabasePAConstantes.EntryCasos.PALABRAS_CLAVES_BUSQUEDA +
                 " LIKE '%" + palabrasClave.toLowerCase() + "%'", null);
 
         listaDeCasos.moveToFirst();
 
         while(!listaDeCasos.isAfterLast()){
-            String nombre  = listaDeCasos.getString(listaDeCasos.getColumnIndex(DatabasePA.EntryCasos.NOMBRE));
+            String nombre  = listaDeCasos.getString(listaDeCasos.getColumnIndex(DatabasePAConstantes.EntryCasos.NOMBRE));
             nombreCasos.add(nombre);//Se agrega el nombre almacenado en la
                                                                                         //colummna nombre
             listaDeCasos.moveToNext();

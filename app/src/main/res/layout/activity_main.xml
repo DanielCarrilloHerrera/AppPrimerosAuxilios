@@ -26,12 +26,18 @@
     </android.support.v7.widget.SearchView>
 
 
-    <fragment
+    <ListView
+        android:id="@+id/listaResultados"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/simpleSearchView"/>
+    <!--<fragment
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:name="com.primerosauxilios.udec.appprimerosauxilios.vista.fragmentos.FragmentoResultados"
         android:id="@+id/fragmentoResultados"
         android:layout_alignParentBottom="true"
         class="com.primerosauxilios.udec.appprimerosauxilios.vista.fragmentos.FragmentoResultados"
-        tools:layout="@layout/fragmento_resultados"/>
+        tools:layout="@layout/fragmento_resultados"
+        android:layout_below="@+id/simpleSearchView" />-->
 </RelativeLayout>

@@ -25,7 +25,7 @@ public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
     private boolean mNeedUpdate = false;
 
     public PrimerosAuxiliosDBHelper(Context context) {
-        super (context, DatabasePA.DATABASE_NAME, null, DatabasePA.DATABASE_VERSION);
+        super (context, DatabasePAConstantes.DATABASE_NAME, null, DatabasePAConstantes.DATABASE_VERSION);
         if (Build.VERSION.SDK_INT >= 17)//Si el SDK es igual o mayor que la version 17
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
         else
@@ -39,7 +39,7 @@ public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
 
     public void updateDataBase() throws IOException{
         if (mNeedUpdate){
-            File dbFile = new File(DB_PATH + DatabasePA.DATABASE_NAME);
+            File dbFile = new File(DB_PATH + DatabasePAConstantes.DATABASE_NAME);
             if (dbFile.exists())
                 dbFile.delete();
 
@@ -50,7 +50,7 @@ public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
     }
 
     private boolean checkDataBase(){ //Si la base de datos existe
-        File dbFile = new File(DB_PATH + DatabasePA.DATABASE_NAME);
+        File dbFile = new File(DB_PATH + DatabasePAConstantes.DATABASE_NAME);
         return dbFile.exists();
     }
 
@@ -68,10 +68,10 @@ public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
 
     private void copyDBFile() throws IOException{//En este metodo, se copia la base de datos de assets a un archivo en la carpeta
                                                 //data del emulador
-        InputStream mInput = mContext.getAssets().open(DatabasePA.DATABASE_NAME);
+        InputStream mInput = mContext.getAssets().open(DatabasePAConstantes.DATABASE_NAME);
         //Si la base de datos esta almacenada en la carpeta raw
         //InputStream mInput = mContext.getResources().openRawResource(R.raw.info);
-        OutputStream mOutput = new FileOutputStream(DB_PATH+DatabasePA.DATABASE_NAME);
+        OutputStream mOutput = new FileOutputStream(DB_PATH+ DatabasePAConstantes.DATABASE_NAME);
         byte[] mBuffer = new byte[1024];
         int mLength;
         while ((mLength = mInput.read(mBuffer)) > 0)
@@ -82,7 +82,7 @@ public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
     }
 
     public boolean openDataBase() throws SQLException{
-        mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DatabasePA.DATABASE_NAME, null,
+        mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DatabasePAConstantes.DATABASE_NAME, null,
                 SQLiteDatabase.CREATE_IF_NECESSARY);
         return mDataBase != null;
     }
