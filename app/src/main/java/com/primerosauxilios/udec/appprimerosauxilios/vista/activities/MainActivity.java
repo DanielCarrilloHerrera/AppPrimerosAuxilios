@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,11 +45,24 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu, menu);
+        return true;
+    }
 
-    public void medidasGenerales(View v){//Caso Medidas Generales
-        Intent intent = new Intent(this, CasoAMostrarActivity.class);
-        intent.putExtra(DatabasePAConstantes.CASO,DatabasePAConstantes.CASO_MEDIDAS_GENERALES);
-        startActivity(intent);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.itemMedidasGenerales:
+                Intent intent = new Intent(this, CasoAMostrarActivity.class);
+                intent.putExtra(DatabasePAConstantes.CASO,DatabasePAConstantes.CASO_MEDIDAS_GENERALES);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

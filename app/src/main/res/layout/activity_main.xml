@@ -7,13 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.primerosauxilios.udec.appprimerosauxilios.vista.activities.MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnMedidasGenerales"
-        android:id="@+id/btnMedidasGenerales"
-        android:onClick="medidasGenerales"
-        />
+
     <android.support.v7.widget.SearchView
         android:elevation="2dp"
         android:background="#fff"
