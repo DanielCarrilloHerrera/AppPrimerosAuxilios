@@ -1,63 +1,50 @@
 package com.primerosauxilios.udec.appprimerosauxilios.vista.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.primerosauxilios.udec.appprimerosauxilios.R;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Aplicacion;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
-
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
-
-    SearchView simpleSearchView;
-    ListView lvResultados;
-    ArrayList<String> listaCasos;
+public class MainActivity extends AppCompatActivity implements OnQueryTextListener, OnItemClickListener {
     ArrayAdapter<String> adapter;
+    ArrayList<String> listaCasos;
+    ListView lvResultados;
+    SearchView simpleSearchView;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        simpleSearchView = (SearchView) findViewById(R.id.simpleSearchView); //initiate a search view
-        simpleSearchView.setOnQueryTextListener(this);
-
-        lvResultados = (ListView) findViewById(R.id.listaResultados);
-
-        listaCasos = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                listaCasos);
-        lvResultados.setAdapter(adapter);
-        lvResultados.setOnItemClickListener(this);
-
+        this.simpleSearchView = (SearchView) findViewById(R.id.simpleSearchView);
+        this.simpleSearchView.setOnQueryTextListener(this);
+        this.lvResultados = (ListView) findViewById(R.id.listaResultados);
+        this.listaCasos = new ArrayList();
+        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.lvResultados.setAdapter(this.adapter);
+        this.lvResultados.setOnItemClickListener(this);
     }
 
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
+        getMenuInflater().inflate(R.menu.options_menu, menu);
         return true;
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.itemMedidasGenerales:
                 Intent intent = new Intent(this, CasoAMostrarActivity.class);
-                intent.putExtra(DatabasePAConstantes.CASO,DatabasePAConstantes.CASO_MEDIDAS_GENERALES);
+                intent.putExtra(DatabasePAConstantes.CASO, DatabasePAConstantes.CASO_MEDIDAS_GENERALES);
                 startActivity(intent);
                 return true;
             default:
@@ -65,37 +52,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
     }
 
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
-        Aplicacion aplicacion = Aplicacion.getInstancia(getApplicationContext());
-        this.listaCasos = aplicacion.getNombresCasos(query);//Se obtienen de la base de datos el listado de casos
-                                                                        //de acuerdo a las palabras ingresadas en el SearchView
-
-
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                this.listaCasos);
-        lvResultados.setAdapter(adapter);
-
-        adapter.notifyDataSetChanged();
-
-
+        this.listaCasos = Aplicacion.getInstancia(getApplicationContext()).getNombresCasos(query);
+        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.lvResultados.setAdapter(this.adapter);
+        this.adapter.notifyDataSetChanged();
         return false;
     }
 
-    @Override
     public boolean onQueryTextChange(String newText) {
         return false;
     }
 
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-        String casoSeleccionado = lvResultados.getAdapter().getItem(i).toString();Intent intent = new Intent(this, CasoAMostrarActivity.class);
-        intent.putExtra(DatabasePAConstantes.CASO,casoSeleccionado);
+        String casoSeleccionado = this.lvResultados.getAdapter().getItem(i).toString();
+        Intent intent = new Intent(this, CasoAMostrarActivity.class);
+        intent.putExtra(DatabasePAConstantes.CASO, casoSeleccionado);
         startActivity(intent);
-
     }
 }
