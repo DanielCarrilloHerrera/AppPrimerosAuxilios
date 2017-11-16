@@ -4,108 +4,93 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Build;
-
+import android.os.Build.VERSION;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-
-/**
- * Created by daniel on 3/10/17.
- */
-
 public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
-
     private static String DB_PATH = "";
-    private SQLiteDatabase mDataBase;
     private final Context mContext;
+    private SQLiteDatabase mDataBase;
     private boolean mNeedUpdate = false;
 
     public PrimerosAuxiliosDBHelper(Context context) {
-        super (context, DatabasePAConstantes.DATABASE_NAME, null, DatabasePAConstantes.DATABASE_VERSION);
-        if (Build.VERSION.SDK_INT >= 17)//Si el SDK es igual o mayor que la version 17
+        super(context, DatabasePAConstantes.DATABASE_NAME, null, 1);
+        if (VERSION.SDK_INT >= 17) {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
-        else
+        } else {
             DB_PATH = "/data/data" + context.getPackageName() + "/databases/";
+        }
         this.mContext = context;
-
         copyDataBase();
-
-        this.getReadableDatabase();
+        getReadableDatabase();
     }
 
-    public void updateDataBase() throws IOException{
-        if (mNeedUpdate){
+    public void updateDataBase() throws IOException {
+        if (this.mNeedUpdate) {
             File dbFile = new File(DB_PATH + DatabasePAConstantes.DATABASE_NAME);
-            if (dbFile.exists())
+            if (dbFile.exists()) {
                 dbFile.delete();
-
+            }
             copyDataBase();
-
-            mNeedUpdate = false;
+            this.mNeedUpdate = false;
         }
     }
 
-    private boolean checkDataBase(){ //Si la base de datos existe
-        File dbFile = new File(DB_PATH + DatabasePAConstantes.DATABASE_NAME);
-        return dbFile.exists();
+    private boolean checkDataBase() {
+        return new File(DB_PATH + DatabasePAConstantes.DATABASE_NAME).exists();
     }
 
-    private void copyDataBase(){
-        if (!checkDataBase()){
-            this.getReadableDatabase();
-            this.close();
-            try{
+    private void copyDataBase() {
+        if (!checkDataBase()) {
+            getReadableDatabase();
+            close();
+            try {
                 copyDBFile();
-            } catch (IOException mIOException){
+            } catch (IOException e) {
                 throw new Error("ErrorCopyingDataBase");
             }
         }
     }
 
-    private void copyDBFile() throws IOException{//En este metodo, se copia la base de datos de assets a un archivo en la carpeta
-                                                //data del emulador
-        InputStream mInput = mContext.getAssets().open(DatabasePAConstantes.DATABASE_NAME);
-        //Si la base de datos esta almacenada en la carpeta raw
-        //InputStream mInput = mContext.getResources().openRawResource(R.raw.info);
-        OutputStream mOutput = new FileOutputStream(DB_PATH+ DatabasePAConstantes.DATABASE_NAME);
+    private void copyDBFile() throws IOException {
+        InputStream mInput = this.mContext.getAssets().open(DatabasePAConstantes.DATABASE_NAME);
+        OutputStream mOutput = new FileOutputStream(DB_PATH + DatabasePAConstantes.DATABASE_NAME);
         byte[] mBuffer = new byte[1024];
-        int mLength;
-        while ((mLength = mInput.read(mBuffer)) > 0)
-            mOutput.write(mBuffer, 0, mLength);
-        mOutput.flush();
-        mOutput.close();
-        mOutput.close();
-    }
-
-    public boolean openDataBase() throws SQLException{
-        mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DatabasePAConstantes.DATABASE_NAME, null,
-                SQLiteDatabase.CREATE_IF_NECESSARY);
-        return mDataBase != null;
-    }
-
-    @Override
-    public synchronized void close() {
-        if (mDataBase != null)
-            mDataBase.close();
-        super.close();
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        //Codigo para actualizar la base de datos
-        if(newVersion > oldVersion){
-            mNeedUpdate = true;
+        while (true) {
+            int mLength = mInput.read(mBuffer);
+            if (mLength > 0) {
+                mOutput.write(mBuffer, 0, mLength);
+            } else {
+                mOutput.flush();
+                mOutput.close();
+                mOutput.close();
+                return;
+            }
         }
     }
 
+    public boolean openDataBase() throws SQLException {
+        this.mDataBase = SQLiteDatabase.openDatabase(DB_PATH + DatabasePAConstantes.DATABASE_NAME, null, 268435456);
+        return this.mDataBase != null;
+    }
+
+    public synchronized void close() {
+        if (this.mDataBase != null) {
+            this.mDataBase.close();
+        }
+        super.close();
+    }
+
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+    }
+
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        if (newVersion > oldVersion) {
+            this.mNeedUpdate = true;
+        }
+    }
 }

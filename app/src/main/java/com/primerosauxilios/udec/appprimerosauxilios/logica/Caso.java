@@ -2,24 +2,15 @@ package com.primerosauxilios.udec.appprimerosauxilios.logica;
 
 import java.util.ArrayList;
 
-/**
- * Created by daniel on 3/10/17.
- */
-
 public class Caso {
-
     private int id;
     private String nombre;
-    private String procedimiento;
-    private ArrayList<String> palabrasClaveBusqueda;
     private String nombreAudioProcedimiento;
-
-    public Caso(){
-
-    }
+    private ArrayList<String> palabrasClaveBusqueda;
+    private String procedimiento;
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
@@ -27,35 +18,37 @@ public class Caso {
     }
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public void asignarProcedimiento(String procedimiento){
+    public void asignarProcedimiento(String procedimiento) {
         this.procedimiento = procedimiento;
     }
 
-    public String getProcedimiento(){
-        return procedimiento;
+    public String getProcedimiento() {
+        return this.procedimiento;
     }
 
-    public void asignarAudioAProcedimiento(String nombreAudio){
+    public void asignarAudioAProcedimiento(String nombreAudio) {
         this.nombreAudioProcedimiento = nombreAudio;
     }
 
-
-    public void agregarPalabraClave(String palabraClave){
-
+    public String getAudioProcedimiento() {
+        return this.nombreAudioProcedimiento;
     }
 
-    public boolean eliminarPalabraClave(String palabraClave){
+    public void agregarPalabraClave(String palabraClave) {
+    }
+
+    public boolean eliminarPalabraClave(String palabraClave) {
         return false;
     }
 
-    public boolean esPalabraClave(String palabraClave){
+    public boolean esPalabraClave(String palabraClave) {
         return false;
     }
 }
