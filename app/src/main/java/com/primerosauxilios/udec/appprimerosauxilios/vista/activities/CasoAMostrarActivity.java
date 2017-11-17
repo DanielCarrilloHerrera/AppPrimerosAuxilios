@@ -1,5 +1,7 @@
 package com.primerosauxilios.udec.appprimerosauxilios.vista.activities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -40,10 +42,13 @@ public class CasoAMostrarActivity extends AppCompatActivity {
         cargarCaso();
         String audio = this.caso.getAudioProcedimiento().toLowerCase();
 
-        if(VERSION.SDK_INT <= 22)
+        this.reproductor = MediaPlayer.create(this, getResources().getIdentifier(audio, "raw", getApplicationContext().getPackageName()));
+
+        /*if(VERSION.SDK_INT <= 22)
             this.reproductor = MediaPlayer.create(this, getResources().getIdentifier(audio, "raw", getApplicationContext().getPackageName()));
         else
             this.reproductor = MediaPlayer.create(this, getResources().getIdentifier(audio.substring(0, audio.length() - 4), "raw", getApplicationContext().getPackageName()));
+            */
 
         this.reproduciendoAudio = false;
         this.manejador = new Handler();
@@ -57,6 +62,20 @@ public class CasoAMostrarActivity extends AppCompatActivity {
         } else {
             this.tvTexto.setText(Html.fromHtml(this.caso.getProcedimiento()));
         }
+
+
+        // Se recupera el tamaño de la letra almacenado en el SharedPreferences y se le asigna al textview del texto
+
+        Context contexto = getApplicationContext();
+
+        SharedPreferences sharedPreferences =
+                contexto.getSharedPreferences(getString(R.string.tamañoLetra),
+                        contexto.MODE_PRIVATE);
+
+        int tamañoLetra = sharedPreferences.getInt(getString(R.string.tamañoLetra), 0);
+
+        tvTexto.setTextSize(tamañoLetra);
+
     }
 
     public void botonesAudio(View view) {
