@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -13,15 +12,24 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.primerosauxilios.udec.appprimerosauxilios.R;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Aplicacion;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Caso;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
 
-public class CasoAMostrarActivity extends AppCompatActivity {
+import org.junit.Test;
+import org.mockito.internal.matchers.Null;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by daniel on 18/11/17.
+ */
+public class CasoAMostrarActivityPU extends AppCompatActivity {
     private static int unTiempo = 0;
     private ImageButton btnPlayPause;
-    private Thread ActualizarTiempoAudio = new Hilo();
+    private Thread ActualizarTiempoAudio;
     private Caso caso;
     private Handler manejador;
     private String nombreCaso;
@@ -33,7 +41,9 @@ public class CasoAMostrarActivity extends AppCompatActivity {
     private double tiempoFinal = 0;
     private TextView tvTexto;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    @Test
+    public void onCreate() {
+        Bundle savedInstanceState = new Bundle();
         try{
             super.onCreate(savedInstanceState);
         }catch (NullPointerException e){
@@ -52,7 +62,8 @@ public class CasoAMostrarActivity extends AppCompatActivity {
         this.manejador = new Handler();
     }
 
-    private void cargarCaso() {
+    @Test
+    public void cargarCaso() {
         try {
             this.caso = Aplicacion.getInstancia(getApplicationContext()).getCaso(this.nombreCaso);
         }
@@ -79,10 +90,11 @@ public class CasoAMostrarActivity extends AppCompatActivity {
 
         tvTexto.setTextSize(tamañoLetra);
 
-
     }
 
-    public void botonesAudio(View view) {
+    @Test
+    public void botonesAudio() {
+        View view = new View(this);
         switch (view.getId()) {
             case R.id.btnRetroceder:
                 if (((int) this.tiempoComienzo) - this.tiempoDetras > 0) {
@@ -124,12 +136,7 @@ public class CasoAMostrarActivity extends AppCompatActivity {
         }
     }
 
-    protected void onStop() {
-        super.onStop();
-        this.ActualizarTiempoAudio.interrupt();
-        this.ActualizarTiempoAudio = null;
-        this.reproductor.stop();
-    }
+
 
     class Hilo extends Thread {
         private boolean ejecutarse = true;
@@ -139,9 +146,10 @@ public class CasoAMostrarActivity extends AppCompatActivity {
 
         public void run() {
             if (!this.ejecutarse) {
-                CasoAMostrarActivity.this.tiempoComienzo = (double) CasoAMostrarActivity.this.reproductor.getCurrentPosition();
+                CasoAMostrarActivityPU.this.tiempoComienzo = (double) CasoAMostrarActivityPU.this.reproductor.getCurrentPosition();
             }
-            CasoAMostrarActivity.this.manejador.postDelayed(this, 100);
+            CasoAMostrarActivityPU.this.manejador.postDelayed(this, 100);
         }
     }
+
 }
