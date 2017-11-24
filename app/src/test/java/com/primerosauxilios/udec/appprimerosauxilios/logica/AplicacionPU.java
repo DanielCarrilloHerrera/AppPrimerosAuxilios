@@ -3,8 +3,6 @@ package com.primerosauxilios.udec.appprimerosauxilios.logica;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.PrimerosAuxiliosDBHelper;
@@ -18,28 +16,32 @@ import static org.junit.Assert.*;
 /**
  * Created by daniel on 18/11/17.
  */
-
 public class AplicacionPU {
-    private static Aplicacion instancia;
+
+    private static AplicacionPU instancia;
     private PrimerosAuxiliosDBHelper admin;
     private Context context;
     private SQLiteDatabase db;
     private ArrayList<Caso> listaCasos = new ArrayList();
 
+    public AplicacionPU(){
+
+    }
+    @Test
+    public void getInstancia() throws Exception {
+        if (instancia == null) {
+            instancia = new AplicacionPU();
+        }
+    }
 
     @Test
-    public void getListaCasos() throws Exception {}
+    public void getListaCasos() throws Exception {
+    }
 
     @Test
     public void getCaso() throws Exception {
-        try {
-            this.db = this.admin.getWritableDatabase();
-        }
-        catch(NullPointerException e){
-            return;
-        }
-
-        String nombre="ejemplo";
+        this.db = this.admin.getWritableDatabase();
+        String nombre="";
         Caso retorno = new Caso();
         Cursor caso = this.db.rawQuery("SELECT _id, " +
                                         "nombre, " +
@@ -60,19 +62,14 @@ public class AplicacionPU {
 
     @Test
     public void getNombresCasos() throws Exception {
-        try{
-            this.db = this.admin.getWritableDatabase();
-        }catch (NullPointerException e){
-            return;
-        }
-        String palabrasClave = "ejemplo";
+        this.db = this.admin.getWritableDatabase();
+        String palabrasClave = "";
         ArrayList<String> nombreCasos = new ArrayList();
         Cursor listaDeCasos = this.db.rawQuery("SELECT nombre " +
                                                 "FROM Casos " +
                                                 "WHERE clavesBusqueda " +
-                                                "LIKE '%" + palabrasClave.toLowerCase() +
-                                                "%'",
-                                    null);
+                                                "LIKE '%" +
+                                                palabrasClave.toLowerCase() + "%'", null);
         listaDeCasos.moveToFirst();
         while (!listaDeCasos.isAfterLast()) {
             nombreCasos.add(listaDeCasos.getString(listaDeCasos.getColumnIndex(DatabasePAConstantes.EntryCasos.NOMBRE)));
