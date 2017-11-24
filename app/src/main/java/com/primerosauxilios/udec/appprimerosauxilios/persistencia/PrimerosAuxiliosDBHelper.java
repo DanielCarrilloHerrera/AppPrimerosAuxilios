@@ -17,7 +17,7 @@ public class PrimerosAuxiliosDBHelper extends SQLiteOpenHelper {
     private SQLiteDatabase mDataBase;
     private boolean mNeedUpdate = false;
 
-    public PrimerosAuxiliosDBHelper(Context context) {
+    public PrimerosAuxiliosDBHelper(Context context) throws NullPointerException{
         super(context, DatabasePAConstantes.DATABASE_NAME, null, 1);
         if (VERSION.SDK_INT >= 17) {
             DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
