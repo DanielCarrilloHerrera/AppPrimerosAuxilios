@@ -6,8 +6,4 @@
         android:title="@string/strMedidasGenerales"
         android:icon="@drawable/ic_medidas_generales_24dp"
         app:showAsAction="always" />
-
-    <item android:id="@+id/itemTamañoLetra"
-        android:title="@string/itemTamañoLetra"
-        app:showAsAction="never"/>
 </menu>
