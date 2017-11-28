@@ -17,11 +17,11 @@
         app:civ_border_width="2dp"/>
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_below="@+id/ssIvPrincipal"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="122dp"
+        android:layout_marginTop="90dp"
         android:src="@drawable/udec" />
 
 </RelativeLayout>
