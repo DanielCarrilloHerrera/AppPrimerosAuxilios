@@ -6,9 +6,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btnMedidasGenerales">Medidas generales de primeros auxilios</string>
-    <string name="strMedidasGenerales">Medidas Generales</string>
+    <string name="strMedidasGenerales">Medidas generales</string>
     <string name="itemTamañoLetra">Tamaño letra</string>
     <string name="tamañoLetra">tamanoLetra</string>
-    <string name="itemMarcoLegal">Marco Legal</string>
+    <string name="itemMarcoLegal">Marco legal</string>
+    <string name="itemCreditos">Créditos</string>
+    <string name="strTituloDialogTamanoLetra">Tamaño de letra</string>
+    <string name="strMessageDialogTamanoLetra">Seleccione el tamaño de la letra</string>
+    <string name="strPositivoDialogTamanoLetra">Listo</string>
+    <string name="strNegativoDialogTamanoLetra">Cancelar</string>
+    <string name="strPositivoDialogMarcoLegal">Listo</string>
 
 </resources>

@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.number_picker_dialog, null);
-        dialogo.setTitle("Tamaño de letra");
-        dialogo.setMessage("Seleccione el tamaño de la letra");
+        dialogo.setTitle(R.string.strTituloDialogTamanoLetra);
+        dialogo.setMessage(R.string.strMessageDialogTamanoLetra);
         dialogo.setView(dialogView);
         final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.dialogo_tamaño_letra);
         numberPicker.setMaxValue(50);
@@ -101,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
 
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        dialogo.setPositiveButton("Listo", new DialogInterface.OnClickListener() {
+        dialogo.setPositiveButton(R.string.strPositivoDialogTamanoLetra, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor.putInt(getString(R.string.tamañoLetra), numberPicker.getValue());
                 editor.commit();
             }
         });
-        dialogo.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        dialogo.setNegativeButton(R.string.strNegativoDialogTamanoLetra, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor.commit();
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         //Inicializar el Alert Dialog
 
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Marco Legal");
+        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Marco legal");
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.marco_legal_dialog, null);
         dialogo.setTitle(casoMarcoLegal.getNombre());
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
 
         dialogo.setView(dialogView);
 
-        dialogo.setPositiveButton("Listo", new DialogInterface.OnClickListener() {
+        dialogo.setPositiveButton(R.string.strPositivoDialogMarcoLegal, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 

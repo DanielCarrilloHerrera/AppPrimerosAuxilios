@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".vista.activities.SplashActivity">
+        <activity android:name=".vista.activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,13 +19,15 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".vista.activities.MainActivity">
+        <activity android:name=".vista.activities.MainActivity"
+            android:screenOrientation="portrait">
             <!-- Especificando la configuración del searchable -->
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".vista.activities.CasoAMostrarActivity"></activity>
+        <activity android:name=".vista.activities.CasoAMostrarActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

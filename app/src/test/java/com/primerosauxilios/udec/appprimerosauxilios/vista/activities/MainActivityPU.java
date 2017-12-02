@@ -98,7 +98,8 @@ public class MainActivityPU {
     }
 
     @Test
-    public void onQueryTextSubmit(String query) {
+    public void onQueryTextSubmit() {
+        String query = "";
         this.listaCasos = Aplicacion.getInstancia(context).getNombresCasos(query);
         this.adapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, this.listaCasos);
         this.lvResultados.setAdapter(this.adapter);
@@ -109,7 +110,12 @@ public class MainActivityPU {
         return false;
     }
 
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    @Test
+    public void onItemClick() {
+        AdapterView<?> adapterView;
+        View view;
+        int i = 0;
+        long l;
         String casoSeleccionado = this.lvResultados.getAdapter().getItem(i).toString();
         Intent intent = new Intent(context, CasoAMostrarActivity.class);
         intent.putExtra(DatabasePAConstantes.CASO, casoSeleccionado);

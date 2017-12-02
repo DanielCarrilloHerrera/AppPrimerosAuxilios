@@ -4,7 +4,7 @@
 
     <item android:id="@+id/itemMedidasGenerales"
         android:title="@string/strMedidasGenerales"
-        android:icon="@drawable/ic_medidas_generales_24dp"
+        android:icon="@drawable/img_primeros_auxilios"
         app:showAsAction="always" />
 
     <item android:id="@+id/itemTamañoLetra"
@@ -13,5 +13,9 @@
 
     <item android:id="@+id/itemMarcoLegal"
         android:title="@string/itemMarcoLegal"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/itemCreditos"
+        android:title="@string/itemCreditos"
         app:showAsAction="never"/>
 </menu>
