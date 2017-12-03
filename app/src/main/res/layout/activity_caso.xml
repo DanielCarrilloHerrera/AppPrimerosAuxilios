@@ -28,8 +28,7 @@
                 android:layout_height="match_parent"
                 android:layout_toLeftOf="@+id/btnPlayPause"
                 android:onClick="botonesAudio"
-                android:src="@drawable/ic_fast_rewind_black_24dp"
-                />
+                android:src="@drawable/ic_fast_rewind_black_24dp"/>
 
             <ImageButton
                 android:id="@+id/btnPlayPause"

@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
                 return true;
             case R.id.itemMarcoLegal:
                 dialogoMarcoLegal();
+            case R.id.itemCreditos:
+                dialogoCreditos();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -124,9 +126,39 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
         Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Marco legal");
         LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.marco_legal_dialog, null);
+        View dialogView = inflater.inflate(R.layout.layout_dialog, null);
         dialogo.setTitle(casoMarcoLegal.getNombre());
-        TextView texto = (TextView) dialogView.findViewById(R.id.tvTextoMarcoLegal);
+        TextView texto = (TextView) dialogView.findViewById(R.id.tvTextoDialog);
+
+        //formato al texto
+        if (Build.VERSION.SDK_INT >= 24) {
+            texto.setText(Html.fromHtml(casoMarcoLegal.getProcedimiento(), 0));
+        } else {
+            texto.setText(Html.fromHtml(casoMarcoLegal.getProcedimiento()));
+        }
+
+        dialogo.setView(dialogView);
+
+        dialogo.setPositiveButton(R.string.strPositivoDialogMarcoLegal, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        AlertDialog alertDialog = dialogo.create();
+        alertDialog.show();
+    }
+
+    public void dialogoCreditos(){
+        //Inicializar el Alert Dialog
+
+        AlertDialog.Builder dialogo = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Creditos");
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_dialog, null);
+        dialogo.setTitle(casoMarcoLegal.getNombre());
+        TextView texto = (TextView) dialogView.findViewById(R.id.tvTextoDialog);
 
         //formato al texto
         if (Build.VERSION.SDK_INT >= 24) {

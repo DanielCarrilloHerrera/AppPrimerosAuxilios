@@ -73,7 +73,7 @@ public class Aplicacion {
                                                 "FROM Casos " +
                                                 "WHERE clavesBusqueda " +
                                                 "LIKE '%" + palabrasClave.toLowerCase() +
-                                                "%'", null);
+                                                "%'" + " ORDER BY nombre ASC", null);
         listaDeCasos.moveToFirst();
         while (!listaDeCasos.isAfterLast()) {
             nombreCasos.add(listaDeCasos.getString(listaDeCasos.getColumnIndex(DatabasePAConstantes.EntryCasos.NOMBRE)));
