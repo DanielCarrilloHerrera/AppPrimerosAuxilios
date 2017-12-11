@@ -66,8 +66,10 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
                 return true;
             case R.id.itemMarcoLegal:
                 dialogoMarcoLegal();
+                return true;
             case R.id.itemCreditos:
                 dialogoCreditos();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
