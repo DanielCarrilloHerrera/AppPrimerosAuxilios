@@ -191,6 +191,10 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
     }
 
     public boolean onQueryTextChange(String newText) {
+        this.listaCasos = new ArrayList<>();
+        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.lvResultados.setAdapter(this.adapter);
+        this.adapter.notifyDataSetChanged();
         return false;
     }
 
@@ -198,6 +202,10 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         String casoSeleccionado = this.lvResultados.getAdapter().getItem(i).toString();
         Intent intent = new Intent(this, CasoAMostrarActivity.class);
         intent.putExtra(DatabasePAConstantes.CASO, casoSeleccionado);
+        this.listaCasos = new ArrayList<>();
+        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.lvResultados.setAdapter(this.adapter);
+        this.adapter.notifyDataSetChanged();
         startActivity(intent);
     }
 }

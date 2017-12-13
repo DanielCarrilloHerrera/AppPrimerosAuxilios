@@ -7,8 +7,10 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -33,6 +35,17 @@ public class CasoAMostrarActivity extends AppCompatActivity {
     private double tiempoFinal = 0;
     private TextView tvTexto;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // ReHome
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         try{
             super.onCreate(savedInstanceState);
@@ -50,6 +63,8 @@ public class CasoAMostrarActivity extends AppCompatActivity {
 
         this.reproduciendoAudio = false;
         this.manejador = new Handler();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void cargarCaso() {
@@ -123,6 +138,7 @@ public class CasoAMostrarActivity extends AppCompatActivity {
                 return;
         }
     }
+
 
     protected void onStop() {
         super.onStop();
