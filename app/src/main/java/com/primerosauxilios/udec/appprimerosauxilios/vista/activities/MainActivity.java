@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         //Inicializar el Alert Dialog
 
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso(getString(R.string.txtTextDialogCreditos));
+        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Creditos");
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_dialog, null);
         dialogo.setTitle(casoMarcoLegal.getNombre());
