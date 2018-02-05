@@ -36,6 +36,11 @@ public class CasoAMostrarActivity extends AppCompatActivity {
     private TextView tvTexto;
 
     @Override
+    public void onBackPressed() {
+        //Se deshabilita el boton de retroceso en el telefono
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // ReHome
@@ -142,9 +147,11 @@ public class CasoAMostrarActivity extends AppCompatActivity {
 
     protected void onStop() {
         super.onStop();
-        this.ActualizarTiempoAudio.interrupt();
-        this.ActualizarTiempoAudio = null;
-        this.reproductor.stop();
+        if(!this.ActualizarTiempoAudio.isInterrupted()) {
+            this.reproductor.stop();
+            this.ActualizarTiempoAudio.interrupt();
+            this.ActualizarTiempoAudio = null;
+        }
     }
 
     class Hilo extends Thread {

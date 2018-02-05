@@ -16,5 +16,7 @@
     <string name="strPositivoDialogTamanoLetra">Listo</string>
     <string name="strNegativoDialogTamanoLetra">Cancelar</string>
     <string name="strPositivoDialogMarcoLegal">Listo</string>
+    <string name="txtTitleDialogMarcoLegal">Marco legal</string>
+    <string name="txtTextDialogCreditos">Créditos</string>
 
 </resources>

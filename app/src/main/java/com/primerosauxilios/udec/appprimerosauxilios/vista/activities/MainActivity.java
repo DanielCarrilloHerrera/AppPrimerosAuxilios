@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         this.lvResultados.setAdapter(this.adapter);
         this.lvResultados.setOnItemClickListener(this);
     }
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu, menu);
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         //Inicializar el Alert Dialog
 
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Marco legal");
+        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso(getString(R.string.txtTitleDialogMarcoLegal));
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_dialog, null);
         dialogo.setTitle(casoMarcoLegal.getNombre());
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         //Inicializar el Alert Dialog
 
         AlertDialog.Builder dialogo = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso("Creditos");
+        Caso casoMarcoLegal = Aplicacion.getInstancia(getApplicationContext()).getCaso(getString(R.string.txtTextDialogCreditos));
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_dialog, null);
         dialogo.setTitle(casoMarcoLegal.getNombre());
@@ -187,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
+        this.simpleSearchView.setInputType(0);
         return false;
     }
 
