@@ -28,11 +28,14 @@ import com.primerosauxilios.udec.appprimerosauxilios.R;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Aplicacion;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Caso;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
+import com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters.CustomAdapter;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements OnQueryTextListener, OnItemClickListener {
-    ArrayAdapter<String> adapter;
+    CustomAdapter adapter;
     ArrayList<String> listaCasos;
+    ArrayList<Integer> iconosCasos;
     ListView lvResultados;
     SearchView simpleSearchView;
 
@@ -43,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         this.simpleSearchView.setOnQueryTextListener(this);
         this.lvResultados = (ListView) findViewById(R.id.listaResultados);
         this.listaCasos = new ArrayList();
-        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        //this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.iconosCasos = obtenerIdsIconos(this.listaCasos);
+        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.lvResultados.setOnItemClickListener(this);
     }
@@ -75,6 +80,17 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private ArrayList<Integer> obtenerIdsIconos(ArrayList<String> texts){//Obtener los ids de los iconos de cada caso
+        ArrayList<Integer> images = new ArrayList<Integer>();
+
+        for (int i = 0; i < texts.size(); i++){
+            int identifier = getResources().getIdentifier(texts.get(i), "drawable", this.getPackageName());
+            images.add(identifier);
+        }
+
+        return images;
     }
 
     public void dialogoTamañoLetra(){
@@ -186,7 +202,8 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
 
     public boolean onQueryTextSubmit(String query) {
         this.listaCasos = Aplicacion.getInstancia(getApplicationContext()).getNombresCasos(query);
-        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.iconosCasos = obtenerIdsIconos(this.listaCasos);
+        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
         this.simpleSearchView.setInputType(0);
@@ -195,7 +212,8 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
 
     public boolean onQueryTextChange(String newText) {
         this.listaCasos = new ArrayList<>();
-        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.iconosCasos = obtenerIdsIconos(this.listaCasos);
+        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
         return false;
@@ -206,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         Intent intent = new Intent(this, CasoAMostrarActivity.class);
         intent.putExtra(DatabasePAConstantes.CASO, casoSeleccionado);
         this.listaCasos = new ArrayList<>();
-        this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
+        this.iconosCasos = obtenerIdsIconos(this.listaCasos);
+        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
         startActivity(intent);
