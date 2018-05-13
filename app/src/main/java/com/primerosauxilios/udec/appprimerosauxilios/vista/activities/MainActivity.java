@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         setContentView(R.layout.activity_main);
         this.simpleSearchView = (SearchView) findViewById(R.id.simpleSearchView);
         this.simpleSearchView.setOnQueryTextListener(this);
-        this.lvResultados = (ListView) findViewById(R.id.listaResultados);
+        this.lvResultados = (ListView) findViewById(R.id.listaResultadosPrincipal);
+        lvResultados.setDividerHeight(0);
+        lvResultados.setDivider(null);
         this.listaCasos = new ArrayList();
         //this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
         this.iconosCasos = obtenerIdsIconos(this.listaCasos);
@@ -200,9 +202,20 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         alertDialog.show();
     }
 
+    private ArrayList<String> limpiarNombreListaCasos(ArrayList<String> listaCasos){//metodo para convertir a minusculas y eliminar espacios, tildes y ñ
+                                                                                    //de la lista de casos
+        for (int i = 0; i < listaCasos.size(); i++){
+            listaCasos.set(i, listaCasos.get(i).toLowerCase().replaceAll("[(\\s{ASCII})]","").replaceAll("ñ", "n"));
+
+
+        }
+
+        return listaCasos;
+    }
     public boolean onQueryTextSubmit(String query) {
         this.listaCasos = Aplicacion.getInstancia(getApplicationContext()).getNombresCasos(query);
-        this.iconosCasos = obtenerIdsIconos(this.listaCasos);
+        ArrayList<String> listaIconos = limpiarNombreListaCasos((ArrayList<String>) this.listaCasos.clone());
+        this.iconosCasos = obtenerIdsIconos(listaIconos);
         this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
@@ -212,7 +225,9 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
 
     public boolean onQueryTextChange(String newText) {
         this.listaCasos = new ArrayList<>();
-        this.iconosCasos = obtenerIdsIconos(this.listaCasos);
+        Aplicacion.getInstancia(getApplicationContext()).getNombresCasos(newText);
+        ArrayList<String> listaIconos = limpiarNombreListaCasos((ArrayList<String>) this.listaCasos.clone());
+        this.iconosCasos = obtenerIdsIconos(listaIconos);
         this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
@@ -220,7 +235,8 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
     }
 
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String casoSeleccionado = this.lvResultados.getAdapter().getItem(i).toString();
+        //String casoSeleccionado = this.lvResultados.getAdapter().getItem(i).toString();
+        String casoSeleccionado = adapterView.getItemAtPosition(i).toString();
         Intent intent = new Intent(this, CasoAMostrarActivity.class);
         intent.putExtra(DatabasePAConstantes.CASO, casoSeleccionado);
         this.listaCasos = new ArrayList<>();

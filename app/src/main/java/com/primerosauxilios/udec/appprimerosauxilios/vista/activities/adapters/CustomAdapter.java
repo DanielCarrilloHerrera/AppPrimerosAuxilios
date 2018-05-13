@@ -34,9 +34,10 @@ public class CustomAdapter extends BaseAdapter {
         return texts.size();
     }
 
+
     @Override
     public Object getItem(int position) {
-        return null;
+        return texts.get(position);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView text;
         ImageView image;
         image = (ImageView) row.findViewById(R.id.imgIconCaso);
-        text = (TextView) row.findViewById(R.id.tvTexto);
+        text = (TextView) row.findViewById(R.id.tvCaso);
         image.setImageResource(images.get(position));
         text.setText(texts.get(position));
 
