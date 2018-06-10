@@ -13,12 +13,18 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.primerosauxilios.udec.appprimerosauxilios.R;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Aplicacion;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Caso;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
+import com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters.ListaPasosCustomAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CasoAMostrarActivity extends AppCompatActivity {
     private static int unTiempo = 0;
@@ -27,13 +33,16 @@ public class CasoAMostrarActivity extends AppCompatActivity {
     private Caso caso;
     private Handler manejador;
     private String nombreCaso;
+    private List<String> listaPasos;
+    private List<Integer> iconosPasos;
+    private ListaPasosCustomAdapter adapter;
     private boolean reproduciendoAudio;
     private MediaPlayer reproductor;
     private int tiempoAdelante = 5000;
     private double tiempoComienzo = 0;
     private int tiempoDetras = 5000;
     private double tiempoFinal = 0;
-    private TextView tvTexto;
+    private ListView lvPasos;
 
     @Override
     public void onBackPressed() {
@@ -58,33 +67,47 @@ public class CasoAMostrarActivity extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_caso);
-        this.tvTexto = (TextView) findViewById(R.id.tvTexto);
+        this.lvPasos = (ListView) findViewById(R.id.lvPasos);
+        lvPasos.setDividerHeight(0);
+        lvPasos.setDivider(null);
         btnPlayPause = (ImageButton) findViewById(R.id.btnPlayPause);
         this.nombreCaso = getIntent().getStringExtra(DatabasePAConstantes.CASO);
+        this.iconosPasos = obtenerIdsIconos();
         cargarCaso();
         String audio = this.caso.getAudioProcedimiento().toLowerCase();
-
         this.reproductor = MediaPlayer.create(this, getResources().getIdentifier(audio, "raw", getApplicationContext().getPackageName()));
-
         this.reproduciendoAudio = false;
         this.manejador = new Handler();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private List<Integer> obtenerIdsIconos() {
+        ArrayList<Integer> images = new ArrayList<Integer>();
+
+        for (int i = 0; i < 14; i++){
+            int identifier = getResources().getIdentifier( "a"+(i+1), "drawable", this.getPackageName());
+            images.add(identifier);
+        }
+
+        return images;
+    }
+
     private void cargarCaso() {
         try {
             this.caso = Aplicacion.getInstancia(getApplicationContext()).getCaso(this.nombreCaso);
+            listaPasos = obtenerPasosDeProcedimiento(this.caso.getProcedimiento());
+            cargarListViewPasos(listaPasos);
         }
         catch (NullPointerException e){
             return;
         }
         setTitle(this.caso.getNombre());
-        if (Build.VERSION.SDK_INT >= 24) {
+        /*if (Build.VERSION.SDK_INT >= 24) {
             this.tvTexto.setText(Html.fromHtml(this.caso.getProcedimiento(), 0));
         } else {
             this.tvTexto.setText(Html.fromHtml(this.caso.getProcedimiento()));
-        }
+        }*/
 
 
         // Se recupera el tamaño de la letra almacenado en el SharedPreferences y se le asigna al textview del texto
@@ -97,9 +120,19 @@ public class CasoAMostrarActivity extends AppCompatActivity {
 
         int tamañoLetra = sharedPreferences.getInt(getString(R.string.tamañoLetra), 15);
 
-        tvTexto.setTextSize(tamañoLetra);
+        //tvTexto.setTextSize(tamañoLetra);
 
 
+    }
+
+    private void cargarListViewPasos(List<String> listaPasos) {
+        this.adapter = new ListaPasosCustomAdapter(this, this.listaPasos, this.iconosPasos);
+        this.lvPasos.setAdapter(this.adapter);
+        this.adapter.notifyDataSetChanged();
+    }
+
+    private List<String> obtenerPasosDeProcedimiento(String procedimiento) {
+        return Arrays.asList(procedimiento.split("\\d+"));
     }
 
     public void botonesAudio(View view) {

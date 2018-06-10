@@ -11,20 +11,19 @@ import android.widget.TextView;
 
 import com.primerosauxilios.udec.appprimerosauxilios.R;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by daniel on 24/03/18.
  */
 
-public class CustomAdapter extends BaseAdapter {
+public class ListaPasosCustomAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<String> texts;
-    private ArrayList<Integer> images;
+    private List<String> texts;
+    private List<Integer> images;
 
-    public CustomAdapter(Context context, ArrayList<String> texts, ArrayList<Integer> images){
+    public ListaPasosCustomAdapter(Context context, List<String> texts, List<Integer> images){
         this.context = context;
         this.texts = texts;
         this.images = images;
@@ -50,11 +49,11 @@ public class CustomAdapter extends BaseAdapter {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View row;
-        row = inflater.inflate(R.layout.fila_listview, parent, false);
+        row = inflater.inflate(R.layout.filalistapasos_listview, parent, false);
         TextView text;
         ImageView image;
-        image = (ImageView) row.findViewById(R.id.imgIconCaso);
-        text = (TextView) row.findViewById(R.id.tvCaso);
+        image = (ImageView) row.findViewById(R.id.imgNumeroPaso);
+        text = (TextView) row.findViewById(R.id.tvPaso);
         image.setImageResource(images.get(position));
         text.setText(texts.get(position));
 
@@ -67,3 +66,4 @@ public class CustomAdapter extends BaseAdapter {
         return new CharSequence[0];
     }
 }
+

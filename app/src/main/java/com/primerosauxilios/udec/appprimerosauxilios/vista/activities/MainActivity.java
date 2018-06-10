@@ -16,10 +16,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -28,12 +26,12 @@ import com.primerosauxilios.udec.appprimerosauxilios.R;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Aplicacion;
 import com.primerosauxilios.udec.appprimerosauxilios.logica.Caso;
 import com.primerosauxilios.udec.appprimerosauxilios.persistencia.DatabasePAConstantes;
-import com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters.CustomAdapter;
+import com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters.ListaCasosCustomAdapter;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements OnQueryTextListener, OnItemClickListener {
-    CustomAdapter adapter;
+    ListaCasosCustomAdapter adapter;
     ArrayList<String> listaCasos;
     ArrayList<Integer> iconosCasos;
     ListView lvResultados;
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         this.listaCasos = new ArrayList();
         //this.adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.listaCasos);
         this.iconosCasos = obtenerIdsIconos(this.listaCasos);
-        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
+        this.adapter = new ListaCasosCustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.lvResultados.setOnItemClickListener(this);
     }
@@ -206,8 +204,6 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
                                                                                     //de la lista de casos
         for (int i = 0; i < listaCasos.size(); i++){
             listaCasos.set(i, listaCasos.get(i).toLowerCase().replaceAll("[(\\s{ASCII})]","").replaceAll("ñ", "n"));
-
-
         }
 
         return listaCasos;
@@ -216,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         this.listaCasos = Aplicacion.getInstancia(getApplicationContext()).getNombresCasos(query);
         ArrayList<String> listaIconos = limpiarNombreListaCasos((ArrayList<String>) this.listaCasos.clone());
         this.iconosCasos = obtenerIdsIconos(listaIconos);
-        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
+        this.adapter = new ListaCasosCustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
         this.simpleSearchView.setInputType(0);
@@ -228,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         Aplicacion.getInstancia(getApplicationContext()).getNombresCasos(newText);
         ArrayList<String> listaIconos = limpiarNombreListaCasos((ArrayList<String>) this.listaCasos.clone());
         this.iconosCasos = obtenerIdsIconos(listaIconos);
-        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
+        this.adapter = new ListaCasosCustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
         return false;
@@ -241,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnQueryTextListen
         intent.putExtra(DatabasePAConstantes.CASO, casoSeleccionado);
         this.listaCasos = new ArrayList<>();
         this.iconosCasos = obtenerIdsIconos(this.listaCasos);
-        this.adapter = new CustomAdapter(this, this.listaCasos, this.iconosCasos);
+        this.adapter = new ListaCasosCustomAdapter(this, this.listaCasos, this.iconosCasos);
         this.lvResultados.setAdapter(this.adapter);
         this.adapter.notifyDataSetChanged();
         startActivity(intent);
