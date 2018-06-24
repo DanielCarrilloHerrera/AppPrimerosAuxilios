@@ -1,7 +1,9 @@
 package com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,12 @@ public class ListaPasosCustomAdapter extends BaseAdapter {
         image = (ImageView) row.findViewById(R.id.imgNumeroPaso);
         text = (TextView) row.findViewById(R.id.tvPaso);
         image.setImageResource(images.get(position));
-        text.setText(texts.get(position));
+        //text.setText(texts.get(position));
+        if (Build.VERSION.SDK_INT >= 24) {
+            text.setText(Html.fromHtml(texts.get(position)));
+        } else {
+            text.setText(Html.fromHtml(texts.get(position)));
+        }
 
         return row;
     }
