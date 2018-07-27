@@ -1,6 +1,8 @@
 package com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +56,14 @@ public class ListaCasosCustomAdapter extends BaseAdapter {
         ImageView image;
         image = (ImageView) row.findViewById(R.id.imgIconCaso);
         text = (TextView) row.findViewById(R.id.tvCaso);
+        SharedPreferences sharedPreferences =
+                context.getSharedPreferences(context.getString(R.string.tamañoLetra),
+                        context.MODE_PRIVATE);
+        int tamañoLetra = sharedPreferences.getInt(context.getString(R.string.tamañoLetra), 15);
+        text.setTextSize(tamañoLetra);
+        Typeface fontRalewayLight = Typeface.createFromAsset(context.getAssets(), "fonts/Raleway-Light.ttf");
+        //text.setText(texts.get(position));
+        text.setTypeface(fontRalewayLight);
         image.setImageResource(images.get(position));
         text.setText(texts.get(position));
 

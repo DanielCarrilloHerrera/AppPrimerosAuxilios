@@ -2,6 +2,8 @@ package com.primerosauxilios.udec.appprimerosauxilios.vista.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Build.VERSION;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.primerosauxilios.udec.appprimerosauxilios.R;
@@ -28,6 +31,7 @@ import java.util.List;
 
 public class CasoAMostrarActivity extends AppCompatActivity {
     private static int unTiempo = 0;
+    private SeekBar barraReproduccion;
     private ImageButton btnPlayPause;
     private Thread ActualizarTiempoAudio = new Hilo();
     private Caso caso;
@@ -68,9 +72,10 @@ public class CasoAMostrarActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_caso);
         this.lvPasos = (ListView) findViewById(R.id.lvPasos);
-        lvPasos.setDividerHeight(0);
-        lvPasos.setDivider(null);
-        btnPlayPause = (ImageButton) findViewById(R.id.btnPlayPause);
+        this.lvPasos.setDividerHeight(0);
+        this.lvPasos.setDivider(null);
+        this.barraReproduccion = (SeekBar) findViewById(R.id.barraReproduccion);
+        this.btnPlayPause = (ImageButton) findViewById(R.id.btnPlayPause);
         this.nombreCaso = getIntent().getStringExtra(DatabasePAConstantes.CASO);
         this.iconosPasos = obtenerIdsIconos();
         cargarCaso();
@@ -78,8 +83,10 @@ public class CasoAMostrarActivity extends AppCompatActivity {
         this.reproductor = MediaPlayer.create(this, getResources().getIdentifier(audio, "raw", getApplicationContext().getPackageName()));
         this.reproduciendoAudio = false;
         this.manejador = new Handler();
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        barraReproduccion.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+        //barraReproduccion.getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
     }
 
     private List<Integer> obtenerIdsIconos() {
@@ -96,8 +103,8 @@ public class CasoAMostrarActivity extends AppCompatActivity {
     private void cargarCaso() {
         try {
             this.caso = Aplicacion.getInstancia(getApplicationContext()).getCaso(this.nombreCaso);
-            listaPasos = obtenerPasosDeProcedimiento(this.caso.getProcedimiento());
-            cargarListViewPasos(listaPasos);
+            this.listaPasos = obtenerPasosDeProcedimiento(this.caso.getProcedimiento());
+            cargarListViewPasos(this.listaPasos);
         }
         catch (NullPointerException e){
             return;
@@ -111,14 +118,14 @@ public class CasoAMostrarActivity extends AppCompatActivity {
 
 
         // Se recupera el tamaño de la letra almacenado en el SharedPreferences y se le asigna al textview del texto
-
+        /*
         Context contexto = getApplicationContext();
 
         SharedPreferences sharedPreferences =
                 contexto.getSharedPreferences(getString(R.string.tamañoLetra),
                         contexto.MODE_PRIVATE);
 
-        int tamañoLetra = sharedPreferences.getInt(getString(R.string.tamañoLetra), 15);
+        int tamañoLetra = sharedPreferences.getInt(getString(R.string.tamañoLetra), 15);*/
 
         //tvTexto.setTextSize(tamañoLetra);
 
@@ -132,7 +139,10 @@ public class CasoAMostrarActivity extends AppCompatActivity {
     }
 
     private List<String> obtenerPasosDeProcedimiento(String procedimiento) {
-        return Arrays.asList(procedimiento.split("\\d+"));
+
+        ArrayList<String> pasos = new ArrayList<>(Arrays.asList(procedimiento.split("(\\<(b|p|h1)\\>){0,1}[\\s]{0,1}[\\d]{1,3}\\.[\\s]{0,3}")));
+        pasos.remove("");
+        return pasos;
     }
 
     public void botonesAudio(View view) {
@@ -155,6 +165,7 @@ public class CasoAMostrarActivity extends AppCompatActivity {
                 else {
                     Toast.makeText(getApplicationContext(), "Reproduciendo audio...", Toast.LENGTH_SHORT).show();
                     this.reproductor.start();
+                    barraReproduccion.setMax(reproductor.getDuration());
                     this.tiempoFinal = (double) this.reproductor.getDuration();
                     this.tiempoComienzo = (double) this.reproductor.getCurrentPosition();
                     if (unTiempo == 0) {
@@ -197,6 +208,7 @@ public class CasoAMostrarActivity extends AppCompatActivity {
             if (!this.ejecutarse) {
                 CasoAMostrarActivity.this.tiempoComienzo = (double) CasoAMostrarActivity.this.reproductor.getCurrentPosition();
             }
+            barraReproduccion.setProgress(reproductor.getCurrentPosition());
             CasoAMostrarActivity.this.manejador.postDelayed(this, 100);
         }
     }

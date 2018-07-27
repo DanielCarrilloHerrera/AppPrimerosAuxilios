@@ -1,6 +1,8 @@
 package com.primerosauxilios.udec.appprimerosauxilios.vista.activities.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -57,7 +59,14 @@ public class ListaPasosCustomAdapter extends BaseAdapter {
         image = (ImageView) row.findViewById(R.id.imgNumeroPaso);
         text = (TextView) row.findViewById(R.id.tvPaso);
         image.setImageResource(images.get(position));
+        SharedPreferences sharedPreferences =
+                context.getSharedPreferences(context.getString(R.string.tamañoLetra),
+                        context.MODE_PRIVATE);
+        int tamañoLetra = sharedPreferences.getInt(context.getString(R.string.tamañoLetra), 15);
+        text.setTextSize(tamañoLetra);
+        Typeface fontRalewayLight = Typeface.createFromAsset(context.getAssets(), "fonts/Raleway-Light.ttf");
         //text.setText(texts.get(position));
+        text.setTypeface(fontRalewayLight);
         if (Build.VERSION.SDK_INT >= 24) {
             text.setText(Html.fromHtml(texts.get(position)));
         } else {
